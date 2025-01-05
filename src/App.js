@@ -2,22 +2,22 @@ import React from 'react';
 import './App.css';
 import Box from '@mui/material/Box';
 
-import line73 from './images/line73.png'
-// import background from './images/bg.webp'
-import background from './images/bgHEB.webp'
+import line37 from './images/line37.png'
+import background from './images/bg.webp'
+import logo from './images/logo-2.png'
 
 import Form from './components/Form';
 import Spin from './components/Spin';
+import Thanks from './components/Thanks';
 
 function App() {
   const isSubmited = sessionStorage.getItem('submited');
   return (
   <>
-    <Box sx={{backgroundImage: `url(${background})`, backgroundPosition: 'center', backgroundSize: 'cover'}}>
+    <Box sx={{backgroundImage: `url(${background})`, backgroundPosition: 'center', backgroundSize: 'cover', backgroundRepeat: 'no-repeat'}}>
       <Box sx={{alignItems: 'center', justifyContent: 'center', flexDirection: 'column', minHeight: '97vh', display: 'flex'}}>
         <Box sx={{margin: '1rem'}}>
-          {/* <a href='https://vhu.edu.vn'><img src="https://vhu.edu.vn/Resources/Images/SubDomain/HomePage/Logo/1Logo_VHU.png" alt="" height="50px" /></a> */}
-          <a href='https://aurora.edu.vn/'><img src="https://aurora.edu.vn/wp-content/uploads/2022/10/logo-heb-vi.png" alt="" height="100px" /></a>
+          <a href='https://vhu.edu.vn'><img src={logo} alt="" height="50px" /></a>
         </Box>
         <Box 
           sx={{
@@ -32,12 +32,13 @@ function App() {
           <Box sx={{alignItems: 'center', justifyContent: 'center', height: '100%'}}>
           {isSubmited?
             <Spin />:
+            // <Thanks />:
             <Form />
           }
           </Box>
         </Box>
       </Box>
-      <img src={line73} alt="" width="100%"/>
+      <img src={line37} alt="" width="100%"/>
     </Box>
     
   </>

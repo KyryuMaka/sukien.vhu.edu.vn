@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {Box, TextField, Button} from '@mui/material';
+import {Box, TextField, Button, FormControl, InputLabel, Select, MenuItem} from '@mui/material';
 import * as Realm from 'realm-web';
 
 const realmapp = new Realm.App({id: "xo-so-vhu-ermdi"});
@@ -10,12 +10,17 @@ var ss = sessionStorage;
 function Form(props){
     const [data, setData] = useState({});
     const [errorText, setErrorText] = useState("");
+    // const [address, setAddress] = useState('');
 
     function changeData(e){
         var tag = e.target.id;
         var val = e.target.value;
         setData({...data, [tag]: val});
     }
+
+    // const handleChange = (event) => {
+    //     setAddress(event.target.value);
+    // };
 
     function changePhone(e){
         var tag = e.target.id;
@@ -53,10 +58,11 @@ function Form(props){
             alert("Số điện thoại chưa đúng định dạng");
         }else{
             const realmUser = await realmapp.logIn(credentials);
-            // const rs = await realmUser.callFunction('getHistory', {phoneNumber: data.phoneNumber});
-            const rs = await realmUser.callFunction('getHistoryHEB', {phoneNumber: data.phoneNumber});
+            const rs = await realmUser.callFunction('getHistory', {phoneNumber: data.phoneNumber});
             if(rs.length === 0){
-                const rs1 = await realmUser.callFunction('addHistoryHEB', data);
+                console.log({...data});
+                const rs1 = await realmUser.callFunction('addHistory', {...data});
+                // const rs1 = await realmUser.callFunction('addHistory', {...data, address: address});
                 ss.setItem("ratingAction", "done "+ rs1.id);
                 ss.setItem("phoneNumber", data.phoneNumber);
                 ss.setItem("submited", "true");
@@ -73,6 +79,7 @@ function Form(props){
     <Box sx={{minHeight: "100%", padding: 2}}>
         <h1 style={{color: "#0098FA", textAlign: "center", fontWeight:"bolder", fontSize:"20px"}}>
             Bạn hãy nhập thông tin để đến với vòng quay may mắn nhé!
+            {/* Bạn hãy nhập thông tin để checkin tại SVĐ Thống nhất nhé!  */}
         </h1>
         <form onSubmit={submit} style={{alignItems: 'center', justifyContent: 'center', flexDirection: 'column', position: 'relative', display: 'flex'}}>
             <TextField 
@@ -86,6 +93,17 @@ function Form(props){
                 label="Họ và tên"
                 size="small"
             />
+            {/* <TextField 
+                fullWidth 
+                required 
+                margin="dense" 
+                onChange={changeData} 
+                onInvalid={invalid} 
+                onInput={input} 
+                id="mssv" 
+                label="Mã số sinh viên"
+                size="small"
+            /> */}
             <TextField 
                 fullWidth 
                 required 
@@ -100,6 +118,19 @@ function Form(props){
                 type="number"
                 size="small"
             />
+            {/* <FormControl fullWidth>
+                <InputLabel id="addressLabel">Địa điểm</InputLabel>
+                <Select
+                    labelId="address"
+                    id="address"
+                    value={address}
+                    label="Địa điểm"
+                    onChange={handleChange}
+                >
+                    <MenuItem value={'svdThongNhat'}>Sân vận động Thống nhất</MenuItem>
+                </Select>
+            </FormControl> */}
+
             <TextField 
                 fullWidth 
                 required 
@@ -112,7 +143,7 @@ function Form(props){
                 type="email"
                 size="small"
             />
-            <TextField 
+            {/* <TextField 
                 fullWidth 
                 required 
                 margin="dense" 
@@ -122,7 +153,7 @@ function Form(props){
                 id="diaChi" 
                 label="Địa chỉ nhà của bạn"
                 size="small"
-            />
+            /> */}
             <TextField 
                 fullWidth 
                 required 
@@ -145,7 +176,7 @@ function Form(props){
                 label="Trường bạn đang theo học"
                 size="small"
             />
-            {/* <TextField 
+            <TextField 
                 fullWidth 
                 required 
                 margin="dense" 
@@ -155,7 +186,7 @@ function Form(props){
                 id="favoriteSchool" 
                 label="Trường Đại học yêu thích"
                 size="small"
-            /> */}
+            />
             <Button type="submit" sx={{marginTop: "20px"}} variant="contained" color="info">Xác Nhận</Button>
         </form>
     </Box>
